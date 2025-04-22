@@ -1,0 +1,26 @@
+version: '3.8'
+name: ai-assist-api
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - db
+    env_file:
+      - .env
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
