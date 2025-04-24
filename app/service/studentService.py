@@ -1,10 +1,11 @@
 from app.db.repository.studentRepo import StudentRepository
 from app.db.schema.admin import UserWithToken
-from app.db.schema.students import StudentOutput, StudentCreate, StudentInLogin
+from app.db.schema.students import StudentOutput, StudentCreate, StudentInLogin, ChangePasswordRequest
 from app.core.security.hashHelper import HashHelper
 from app.core.security.authHandler import AuthHandler
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
+
 
 
 class StudentService:
@@ -40,3 +41,13 @@ class StudentService:
         if student:
             return student
         raise HTTPException(status_code=400, detail="Student is not available")
+    
+
+    def change_password(self, student_id: int, passwords: ChangePasswordRequest):
+        student = self.__studentRepository.get_user_by_id(student_id=student_id)
+        if not student or not HashHelper.verify_password(plain_password=passwords.old_password, hashed_password=student.password):
+            raise HTTPException(status_code=403, detail="Old password is incorrect")
+        
+        hashed_password = HashHelper.get_password_hash(plain_password=passwords.new_password)
+
+        return self.__studentRepository.update_password( student_id = student_id, new_hashed_password=hashed_password)

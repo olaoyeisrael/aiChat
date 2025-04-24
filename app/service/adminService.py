@@ -30,6 +30,7 @@ class AdminService:
         raise HTTPException(status_code=400, detail="Please check your Credentials")
     
     def get_user_by_id(self, admin_id : int):
+        
         admin = self.__adminRepository.get_user_by_id(admin_id=admin_id)
         if admin:
             return admin

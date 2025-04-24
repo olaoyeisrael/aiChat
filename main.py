@@ -8,8 +8,10 @@ from services.embedder import embed_chunks, embed_query
 from services.vector_store import store_chunks, search_chunks
 from services.qa import answer_question, classify_query_type
 from services.vector_store import print_all_chunks
+from services.parser import extract_ppt_text
 import os
 import shutil
+
 
 from contextlib import asynccontextmanager
 from app.util.init_db import create_tables
@@ -66,6 +68,8 @@ async def upload_material(
         text = transcribe_audio(filepath)
     elif content_type == "application/pdf" or filename.endswith(".pdf"):
         text = extract_pdf_text(filepath)
+    elif filename.endswith((".ppt", ".pptx")) or content_type in ["application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"]:
+        text = extract_ppt_text(filepath)
     else:
         raise HTTPException(status_code=400, detail="Unsupported file type")
 
@@ -110,6 +114,7 @@ async def ask_question(
 def debug_chunks():
     print_all_chunks()
     return {"status": "Printed chunks to console"}
+
 
 @app.get("/")
 def root():

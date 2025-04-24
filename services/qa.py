@@ -123,11 +123,8 @@ Answer:
             messages=[{"role": "user", "content": prompt}],
             max_tokens=1
         )
-        # print("chit-chat2")
-        # print(question)
-        # print(prompt)
-        # print( response.choices[0].message.content)
+        
         return response.choices[0].message.content.strip().lower()
 
     except Exception as e:
-        return "knowledge"  # fail safe
+        return "knowledge"  

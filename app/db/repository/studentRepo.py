@@ -22,4 +22,10 @@ class StudentRepository(BaseRepository):
     def get_user_by_id(self, student_id : int) -> Student:
         user = self.session.query(Student).filter_by(id=student_id).first()
         return user
-        
+   
+    def update_password(self, student_id: int, new_hashed_password: str) -> Student:
+        student = self.get_user_by_id(student_id)
+        student.password = new_hashed_password
+        self.session.commit()
+        self.session.refresh(student)
+        return student

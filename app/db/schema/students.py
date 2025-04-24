@@ -18,3 +18,9 @@ class StudentOutput(BaseModel):
     registration_no: str
     role: str
 
+
+
+
+class ChangePasswordRequest(BaseModel):
+    old_password: str
+    new_password: str
