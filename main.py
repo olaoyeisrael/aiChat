@@ -96,7 +96,7 @@ def clean_response_text(text: str) -> str:
 # async def ask_question(
 #     question: AskInput ,
 #     user: UserOutput = Depends(get_current_user)):
-#     if user.role != "student":
+#     if user.role != "student":  f
 #         return {
 #             "msg": 'kindly login'
 #         }
