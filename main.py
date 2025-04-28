@@ -55,7 +55,7 @@ async def upload_material(
         shutil.copyfileobj(file.file, f)
 
     # Detect file type via MIME or extension
-    content_type = file.content_type  # e.g., "application/pdf" or "audio/mpeg"
+    content_type = file.content_type  # e.g ., "application/pdf" or "audio/mpeg"
     filename = file.filename.lower()
 
     if "audio" in content_type or filename.endswith((".mp3", ".wav", ".mp4")):
